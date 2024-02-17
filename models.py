@@ -1,7 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-
-# 객체 생성
-db = SQLAlchemy() 
+from app import db
 
 # 모델 정의
 class Member(db.Model):
@@ -24,3 +21,4 @@ class Member(db.Model):
 # 객체 매핑할때 사용
     def __repr__(self):
         return '<Member %r>' % self.name
+        

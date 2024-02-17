@@ -1,7 +1,11 @@
-from flask import request, jsonify
-from models import db, Member
+from flask import request, jsonify, Blueprint
+from models import Member
+from app import db
+
+member_bp = Blueprint('member', __name__)
 
 # 회원 추가
+@member_bp.route('/add_member', methods=['POST'])
 def add_member():
     try:
         data = request.json
@@ -22,6 +26,7 @@ def add_member():
         return jsonify({'status': 'fail', 'msg': error_msg})
 
 # 회원 조회
+@member_bp.route('/get_member/<int:id>', methods=['GET'])
 def get_member(id):
     try:
         # key 값으로 데이터를 조회하고 없으면 404 에러 발생
@@ -33,6 +38,7 @@ def get_member(id):
         return jsonify({'status': 'fail', 'msg': error_msg})
     
 # 회원 리스트 조회
+@member_bp.route('/getlist_member', methods=['GET'])
 def getlist_member():
     try:
         member_list = Member.query.all()  # 메서드 호출을 위해 소괄호 추가
@@ -43,6 +49,7 @@ def getlist_member():
         return jsonify({'status': 'fail', 'msg': error_msg})
 
 # 회원 수정
+@member_bp.route('/update_member/<int:id>', methods=['PUT'])
 def update_member(id):
     try:
         data = request.json
@@ -64,6 +71,7 @@ def update_member(id):
         return jsonify({'status': 'fail', 'msg': error_msg})
 
 # 회원 삭제
+@member_bp.route('/delete_member/<int:id>', methods=['DELETE'])
 def delete_member(id):
     try:
         member = Member.query.get_or_404(id)
